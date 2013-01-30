@@ -15,6 +15,12 @@ public:
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     
+private slots:
+    void on_actionLoad_triggered();
+
+
+    void on_tValueSlider_valueChanged(int value);
+
 private:
     Ui::MainWindow *ui;
 };
