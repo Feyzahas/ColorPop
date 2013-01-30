@@ -25,9 +25,11 @@ private slots:
 
     void mouseReleaseEvent(QMouseEvent *e);
 
+    void dispPoint();
 private:
     Ui::MainWindow *ui;
     vector<QPoint> points;
+    QString fname;
 };
 
 #endif // MAINWINDOW_H

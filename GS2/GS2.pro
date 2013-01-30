@@ -13,11 +13,15 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
-        mainwindow.cpp
+        mainwindow.cpp \
+    colorpop.cpp
 
-HEADERS  += mainwindow.h
+HEADERS  += mainwindow.h \
+    colorpop.h
 
 FORMS    += mainwindow.ui
 
 unix|win32: LIBS += -lMagick++
 INCLUDEPATH += /usr/include/ImageMagick
+QMAKE_LFLAGS += -O3
+

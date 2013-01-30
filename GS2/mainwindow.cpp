@@ -5,7 +5,7 @@
 #include <iostream>
 
 
-
+#include"colorpop.h"
 #include<Magick++.h>
 
 using namespace Magick;
@@ -17,6 +17,7 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     InitializeMagick(NULL);
+    fname = QString("fish.jpg");
 }
 
 MainWindow::~MainWindow()
@@ -45,17 +46,38 @@ void MainWindow::on_tValueSlider_valueChanged(int value)
 
 void MainWindow::on_pushButton_clicked()
 {
-  //copy the top till val;
-   double val;
+    QLabel *l = ui->tValueLabel;
+    QSlider *s = ui->tValueSlider;
+    double val = ((double)s->value())/((double)s->maximum());
+
     double ptx, pty;
     ptx = points.back().x() / ((double)ui->pictureLabel->width());
-    pty = point.back().y() / ((double) ui->pictureLabel->height());
+    pty = points.back().y() / ((double) ui->pictureLabel->height());
 
+    cerr << "Starting\n";
+    cerr << val << endl;
+    cerr << fname.toStdString() << endl;
+    cerr << ptx << ","<<pty << endl;
+    convert(val, fname.toStdString(), ptx, pty);
+    cerr << "Done\n";
    //all done
+    QPoint last = points.back();
    points.clear();
 
+   points.push_back(last);
+   //set pixmap to graytest.jpg
+   ui->outputLabel->setPixmap(QString("graytest.jpg"));
+   dispPoint();
 }
 
+
+void MainWindow::dispPoint() {
+    char tmp[100];
+    sprintf(tmp, "%d: (%d,%d)", points.size(), points.back().x(), points.back().y());
+    QString txtString = QString::fromAscii(tmp);
+    ui->positionLabel->setText(txtString);
+
+}
 
 void MainWindow::mouseReleaseEvent(QMouseEvent *event)
 {
@@ -68,10 +90,7 @@ void MainWindow::mouseReleaseEvent(QMouseEvent *event)
     if (((pt.x() >= orig.x()) && (pt.x() <= (orig.x()+wdth))) && ((pt.y() >= orig.y()) && (pt.y() <= (orig.y() + ht)))){
 
         points.push_back(QPoint(pt.x()-orig.x(), pt.y()-orig.y()));
-        char tmp[100];
-        sprintf(tmp, "%d: (%d,%d)", points.size(), points.back().x(), points.back().y());
-        QString txtString = QString::fromAscii(tmp);
-        ui->positionLabel->setText(txtString);
+        dispPoint();
     }
 }
 
