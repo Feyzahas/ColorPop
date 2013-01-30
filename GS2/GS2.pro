@@ -18,3 +18,6 @@ SOURCES += main.cpp\
 HEADERS  += mainwindow.h
 
 FORMS    += mainwindow.ui
+
+unix|win32: LIBS += -lMagick++
+INCLUDEPATH += /usr/include/ImageMagick
